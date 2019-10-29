@@ -8,14 +8,20 @@ exports.login = function(req, res) {
       req.session.user = {
         username: user.data.username
       };
-      res.send(result);
+      req.session.save(function() {
+        res.redirect('/');
+      });
     })
     .catch(function(err) {
       res.send(err);
     });
 };
 
-exports.logout = () => {};
+exports.logout = function(req, res) {
+  req.session.destroy(function() {
+    res.redirect('/');
+  });
+};
 
 exports.register = function(req, res) {
   let user = new User(req.body);
