@@ -17,4 +17,9 @@ router.get(
   postController.viewCreateScreen
 );
 
+router.post(
+  '/create-post',
+  userController.mustBeLoggedin,
+  postController.create
+);
 module.exports = router;
