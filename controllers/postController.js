@@ -5,7 +5,7 @@ exports.viewCreateScreen = function(req, res) {
 };
 
 exports.create = function(req, res) {
-  let post = new Post(req.body, req.session._id);
+  let post = new Post(req.body, req.session.user._id);
   post
     .create()
     .then(function() {
@@ -20,7 +20,7 @@ exports.viewSingle = async function(req, res) {
   try {
     let post = await Post.findSingleById(req.params.id);
     res.render('single-post-screen', { post: post });
-  } catch (err) {
+  } catch {
     res.render('404');
   }
 };
