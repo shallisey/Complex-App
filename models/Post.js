@@ -91,7 +91,6 @@ Post.findSingleById = function(id) {
         username: post.author.username,
         avatar: new User(post.author, true).avatar
       };
-
       return post;
     });
 
