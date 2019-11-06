@@ -44,3 +44,9 @@ router.post(
   userController.mustBeLoggedin,
   postController.edit
 );
+
+router.post(
+  '/post/:id/delete',
+  userController.mustBeLoggedin,
+  postController.delete
+);
