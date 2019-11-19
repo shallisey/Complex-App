@@ -1,5 +1,19 @@
 const User = require('../models/User');
 const Post = require('../models/Post');
+const Follow = require('../models/Follow');
+
+exports.sharedProfileData = async function(req, res, next) {
+  let isFollowing = false;
+  if (req.session.user) {
+    isFollowing = await Follow.isVisitorFollowing(
+      req.profileUser._id,
+      req.visitorId
+    );
+  }
+
+  req.isFollowing = isFollowing;
+  next();
+};
 
 exports.mustBeLoggedin = function(req, res, next) {
   if (req.session.user) {
@@ -63,7 +77,7 @@ exports.register = function(req, res) {
     });
 };
 
-exports.home = (req, res) => {
+exports.home = function(req, res) {
   if (req.session.user) {
     res.render('home-dashboard');
   } else {
@@ -91,7 +105,8 @@ exports.profilePostsScreen = function(req, res) {
       res.render('profile', {
         posts: posts,
         profileUsername: req.profileUser.username,
-        profileAvatar: req.profileUser.avatar
+        profileAvatar: req.profileUser.avatar,
+        isFollowing: req.isFollowing
       });
     })
     .catch(function() {
