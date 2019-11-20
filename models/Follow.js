@@ -37,7 +37,7 @@ Follow.prototype.create = function() {
     if (!this.errors.length) {
       await followsCollection.insertOne({
         followedId: this.followedId,
-        authorId: new Object(this.authorId)
+        authorId: new ObjectID(this.authorId)
       });
       resolve();
     } else {
