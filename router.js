@@ -60,5 +60,10 @@ router.post(
   userController.mustBeLoggedin,
   followController.addFollow
 );
+router.post(
+  '/removeFollow/:username',
+  userController.mustBeLoggedin,
+  followController.removeFollow
+);
 
 module.exports = router;
