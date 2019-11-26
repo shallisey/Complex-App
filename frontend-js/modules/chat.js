@@ -29,7 +29,7 @@ export default class Chat {
   }
 
   openConnection() {
-    alert('opening connection');
+    this.socket = io();
   }
 
   injectHTML() {
