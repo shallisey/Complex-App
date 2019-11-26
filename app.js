@@ -73,8 +73,10 @@ const server = require('http').createServer(app);
 
 const io = require('socket.io')(server);
 
-io.on('connection', function() {
-  console.log('New user connected');
+io.on('connection', function(socket) {
+  socket.on('chatMessageFromBrowser', function(data) {
+    io.emit('chatMessageFromServer', { message: data.message });
+  });
 });
 
 module.exports = server;
