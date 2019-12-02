@@ -122,6 +122,7 @@ exports.profilePostsScreen = function(req, res) {
   Post.findByAuthorId(req.profileUser._id)
     .then(function(posts) {
       res.render('profile', {
+        title: `Profile for ${req.profileUser.username}`,
         currentPage: 'posts',
         posts: posts,
         profileUsername: req.profileUser.username,
@@ -144,6 +145,7 @@ exports.profileFollowersScreen = async function(req, res) {
   try {
     let followers = await Follow.getFollowersById(req.profileUser._id);
     res.render('profile-followers', {
+      title: `${req.profileUser.username} followers`,
       currentPage: 'followers',
       followers: followers,
       profileUsername: req.profileUser.username,
@@ -165,6 +167,7 @@ exports.profileFollowingScreen = async function(req, res) {
   try {
     let following = await Follow.getFollowingById(req.profileUser._id);
     res.render('profile-following', {
+      title: `following ${req.profileUser.username}`,
       currentPage: 'following',
       following: following,
       profileUsername: req.profileUser.username,
