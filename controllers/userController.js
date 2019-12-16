@@ -1,6 +1,18 @@
 const User = require('../models/User');
 const Post = require('../models/Post');
 const Follow = require('../models/Follow');
+const jwt = require('jsonwebtoken');
+
+exports.apiMustBeLoggedin = function(req, res, next) {
+  try {
+    //1st param is verfiying a token that is coming in.
+    //2nd param is secret phrase to validate token
+    req.apiUser = jwt.verify(req.body.token, process.env.JWTSECRET);
+    next();
+  } catch (error) {
+    res.json('Sorry, you must provide a valid token.');
+  }
+};
 
 exports.doesUsernameExist = function(req, res) {
   User.findByUsername(req.body.username)
@@ -84,7 +96,11 @@ exports.apiLogin = function(req, res) {
   user
     .login()
     .then(function(result) {
-      res.json('Good job, that is a real username and password.');
+      res.json(
+        jwt.sign({ _id: user.data._id }, process.env.JWTSECRET, {
+          expiresIn: '1d'
+        })
+      );
     })
     .catch(function(err) {
       res.json('Sorry, your value are incorrect.');
