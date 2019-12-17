@@ -3,6 +3,16 @@ const Post = require('../models/Post');
 const Follow = require('../models/Follow');
 const jwt = require('jsonwebtoken');
 
+exports.apiGetPostsByUsername = async function(req, res) {
+  try {
+    let authorDoc = await User.findByUsername(req.params.username);
+    let posts = await Post.findByAuthorId(authorDoc._id);
+    res.json(posts);
+  } catch {
+    res.json('Sorry, invalid user requested.');
+  }
+};
+
 exports.apiMustBeLoggedin = function(req, res, next) {
   try {
     //1st param is verfiying a token that is coming in.
