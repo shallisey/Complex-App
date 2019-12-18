@@ -4,8 +4,8 @@ const MongoStore = require('connect-mongo')(session);
 const flash = require('connect-flash');
 const markdown = require('marked');
 const csrf = require('csurf');
-const sanitizeHTML = require('sanitize-html');
 const app = express();
+const sanitizeHTML = require('sanitize-html');
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
@@ -44,7 +44,7 @@ app.use(function(req, res, next) {
         'h5',
         'h6'
       ],
-      allowedAttributes: []
+      allowedAttributes: {}
     });
   };
 
@@ -107,7 +107,7 @@ io.on('connection', function(socket) {
       socket.broadcast.emit('chatMessageFromServer', {
         message: sanitizeHTML(data.message, {
           allowedTags: [],
-          allowedAttributes: []
+          allowedAttributes: {}
         }),
         username: user.username,
         avatar: user.avatar
